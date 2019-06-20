@@ -85,7 +85,7 @@ export class AsciiDocFileTextOut implements TextOut {
 
       try {
         let writePromisify = util.promisify(fs.writeFile);
-        await writePromisify(this.outputFile + '.adoc', outputString.join(''));
+        await writePromisify(this.outputFile + '.asciidoc', outputString.join(''));
       } catch (err) {
         throw err;
       }
