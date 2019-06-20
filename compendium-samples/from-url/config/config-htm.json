@@ -1,0 +1,16 @@
+{
+    "sources": [
+      {
+        "reference": "handbook",
+        "source_type": "url-html",
+        "source": "http://127.0.0.1:8081/"
+      }
+    ],
+    "documents": [
+      {
+        "reference": "handbook",
+        "document": "page1"
+      }
+    ]
+  }
+  

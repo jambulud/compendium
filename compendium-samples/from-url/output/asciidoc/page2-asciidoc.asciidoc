@@ -1,0 +1,20 @@
+:toc: macro
+toc::[]
+
+= Here we have a nice title
+
+== Subtitle
+
+Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique
+      perferendis hic dicta aut quod magnam vero pariatur odit minus, unde,
+      voluptate eveniet corrupti voluptates voluptatibus. Voluptatem expedita
+      veritatis voluptate asperiores. 
+
+image:images/documents.png[docs]
+
+|==================
+|==================
+
+
+
+

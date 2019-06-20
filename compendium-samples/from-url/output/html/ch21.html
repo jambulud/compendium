@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+            <html>
+            <head>
+            <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td{
+                border: 1px solid #dddddd;
+                text-align: left;
+            }
+            th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                background-color: #dddddd;
+            }
+            img {
+                width:20%;
+            }
+
+            </style>
+            </head>
+            <body>
+            <div id="preamble">
+<div class="sectionbody">
+<div id="toc" class="toc">
+<div id="toctitle" class="title">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_chapter21_macros"> Chapter 21. Macros</a></li>
+<li><a href="#_21_1_inline_macros"> 21.1. Inline Macros</a>
+<ul class="sectlevel2">
+<li><a href="#_21_1_1_urls"> 21.1.1. URLs</a></li>
+<li><a href="#_21_1_2_internal_cross_references"> 21.1.2. Internal Cross References</a></li>
+<li><a href="#_21_1_3_linking_to_local_documents"> 21.1.3. Linking to Local Documents</a></li>
+<li><a href="#_21_1_4_images"> 21.1.4. Images</a></li>
+<li><a href="#_21_1_5_comment_lines"> 21.1.5. Comment Lines</a></li>
+</ul>
+</li>
+<li><a href="#_21_2_block_macros"> 21.2. Block Macros</a>
+<ul class="sectlevel2">
+<li><a href="#_21_2_1_block_identifier"> 21.2.1. Block Identifier</a></li>
+<li><a href="#_21_2_2_images"> 21.2.2. Images</a></li>
+<li><a href="#_21_2_3_comment_lines"> 21.2.3. Comment Lines</a></li>
+</ul>
+</li>
+<li><a href="#_21_3_system_macros"> 21.3. System Macros</a>
+<ul class="sectlevel2">
+<li><a href="#_21_3_1_include_macros"> 21.3.1. Include Macros</a></li>
+<li><a href="#_21_3_2_conditional_inclusion_macros"> 21.3.2. Conditional Inclusion Macros</a></li>
+<li><a href="#_21_3_3_executable_system_macros"> 21.3.3. Executable system macros</a></li>
+<li><a href="#_21_3_4_template_system_macro"> 21.3.4. Template System Macro</a></li>
+</ul>
+</li>
+<li><a href="#_21_4_passthrough_macros"> 21.4. Passthrough macros</a></li>
+<li><a href="#_21_5_macro_definitions"> 21.5. Macro Definitions</a></li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_chapter21_macros"><a href="" class="bare"></a> Chapter 21. Macros</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>Macros are a mechanism for substituting parametrized text into output
+documents.</p>
+</div>
+<div class="paragraph">
+<p>Macros have a <em>name</em> , a single <em>target</em> argument and an <em>attribute
+list</em> .  The usual syntax is <code>&lt;name&gt;:&lt;target&gt;[&lt;attrlist&gt;]</code> (for
+inline macros) and <code>&lt;name&gt;::&lt;target&gt;[&lt;attrlist&gt;]</code> (for block
+macros).  Here are some examples:</p>
+</div>
+<div class="paragraph">
+<p><strong>Macro behavior</strong></p>
+</div>
+<div class="paragraph">
+<p><code>&lt;name&gt;</code>*  is the macro name. It can only contain letters, digits or
+  dash characters and cannot start with a dash.
+* The optional
+<code>&lt;target&gt;</code>*  cannot contain white space characters.
+<code>&lt;attrlist&gt;</code>*  is a
+<a href="ch29.html">list of attributes</a>*  enclosed in square
+  brackets.
+<code>]</code>*  characters inside attribute lists must be escaped with a
+  backslash.
+* Expansion of macro references can normally be escaped by prefixing a
+  backslash character (see the AsciiDoc
+* <em>FAQ</em>
+*  for examples of
+  exceptions to this rule).
+* Attribute references in block macros are expanded.
+* The substitutions performed prior to Inline macro macro expansion
+  are determined by the inline context.
+* Macros are processed in the order they appear in the configuration
+  file(s).
+* Calls to inline macros can be nested inside different inline macros
+  (an inline macro call cannot contain a nested call to itself).
+* In addition to
+<code>&lt;name&gt;</code>* ,
+<code>&lt;target&gt;</code>*  and
+<code>&lt;attrlist&gt;</code>*  the
+<code>&lt;passtext&gt;</code>*  and
+<code>&lt;subslist&gt;</code>*  named groups are available to
+<a href="ch21.html#X77">passthrough macros</a>* . A macro is a passthrough macro if the
+  definition includes a
+<code>&lt;passtext&gt;</code>*  named group.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_21_1_inline_macros"><a href="" class="bare"></a> 21.1. Inline Macros</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>Inline Macros occur in an inline element context. Predefined Inline
+macros include <em>URLs</em> , <em>image</em> and <em>link</em> macros.</p>
+</div>
+<div class="sect2">
+<h3 id="_21_1_1_urls"><a href="" class="bare"></a> 21.1.1. URLs</h3>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p><em>http</em> , <em>https</em> , <em>ftp</em> , <em>file</em> , <em>mailto</em> and <em>callto</em> URLs are
+rendered using predefined inline macros.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you don’t need a custom link caption you can enter the</p>
+</li>
+<li>
+<p><em>http</em></p>
+</li>
+<li>
+<p>,</p>
+</li>
+<li>
+<p><em>https</em></p>
+</li>
+<li>
+<p>,</p>
+</li>
+<li>
+<p><em>ftp</em></p>
+</li>
+<li>
+<p>,</p>
+</li>
+<li>
+<p><em>file</em></p>
+</li>
+<li>
+<p>URLs and email addresses without any special
+macro syntax.</p>
+</li>
+<li>
+<p>If the
+<code>&lt;attrlist&gt;</code>*  is empty the URL is displayed.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here are some examples:</p>
+</div>
+<div class="paragraph">
+<p>Which are rendered:</p>
+</div>
+<div class="paragraph">
+<p><a href="http://www.docbook.org/">DocBook.org</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://www.docbook.org/">http://www.docbook.org/</a></p>
+</div>
+<div class="paragraph">
+<p><a href="mailto:joe.bloggs@foobar.com">email Joe Bloggs</a></p>
+</div>
+<div class="paragraph">
+<p><a href="mailto:joe.bloggs@foobar.com">joe.bloggs@foobar.com</a></p>
+</div>
+<div class="paragraph">
+<p>If the <code>&lt;target&gt;</code> necessitates space characters use <code>%20</code> , for example`large%20image.png` .</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_21_1_2_internal_cross_references"><a href="" class="bare"></a> 21.1.2. Internal Cross References</h3>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>Two AsciiDoc inline macros are provided for creating hypertext links
+within an AsciiDoc document. You can use either the standard macro
+syntax or the (preferred) alternative.</p>
+</div>
+<div class="sect3">
+<h4 id="_anchor"><a href="" class="bare"></a> anchor</h4>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>Used to specify hypertext link targets:</p>
+</div>
+<div class="paragraph">
+<p>The <code>&lt;id&gt;</code> is a unique string that conforms to the output markup’s
+anchor syntax. The optional <code>&lt;xreflabel&gt;</code> is the text to be displayed
+by captionless <em>xref</em> macros that refer to this anchor. The optional`&lt;xreflabel&gt;` is only really useful when generating DocBook output.
+Example anchor:</p>
+</div>
+<div class="paragraph">
+<p>You may have noticed that the syntax of this inline element is the
+same as that of the <a href="ch13.html">BlockId block element</a> , this is no
+coincidence since they are functionally equivalent.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_xref"><a href="" class="bare"></a> xref</h4>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>Creates a hypertext link to a document anchor.</p>
+</div>
+<div class="paragraph">
+<p>The <code>&lt;id&gt;</code> refers to an anchor ID. The optional <code>&lt;caption&gt;</code> is the
+link’s displayed text. Example:</p>
+</div>
+<div class="paragraph">
+<p>If <code>&lt;caption&gt;</code> is not specified then the displayed text is
+auto-generated:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The AsciiDoc</p>
+</li>
+<li>
+<p><em>xhtml11</em></p>
+</li>
+<li>
+<p>and</p>
+</li>
+<li>
+<p><em>html5</em></p>
+</li>
+<li>
+<p>backends display the
+<code>&lt;id&gt;</code>* enclosed in square brackets.</p>
+</li>
+<li>
+<p>If DocBook is produced the DocBook toolchain is responsible for the
+displayed text which will normally be the referenced figure, table
+or section title number followed by the element’s title text.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Here is an example:</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_21_1_3_linking_to_local_documents"><a href="" class="bare"></a> 21.1.3. Linking to Local Documents</h3>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>Hypertext links to files on the local file system are specified using
+the <em>link</em> inline macro.</p>
+</div>
+<div class="paragraph">
+<p>The <em>link</em> macro generates relative URLs. The link macro <code>&lt;target&gt;</code> is
+the target file name (relative to the file system location of the
+referring document). The optional <code>&lt;caption&gt;</code> is the link’s displayed
+text. If <code>&lt;caption&gt;</code> is not specified then <code>&lt;target&gt;</code> is displayed.
+Example:</p>
+</div>
+<div class="paragraph">
+<p>You can use the <code>&lt;filename&gt;#&lt;id&gt;</code> syntax to refer to an anchor within
+a target document but this usually only makes sense when targeting
+HTML documents.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_21_1_4_images"><a href="" class="bare"></a> 21.1.4. Images</h3>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>Inline images are inserted into the output document using the <em>image</em> macro. The inline syntax is:</p>
+</div>
+<div class="paragraph">
+<p>The contents of the image file <code>&lt;target&gt;</code> is displayed. To display the
+image its file format must be supported by the target backend
+application. HTML and DocBook applications normally support PNG or JPG
+files.</p>
+</div>
+<div class="paragraph">
+<p><code>&lt;target&gt;</code> file name paths are relative to the location of the
+referring document.</p>
+</div>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p><strong>Image macro attributes</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The optional <em>alt</em> attribute is also the first positional attribute,
+it specifies alternative text which is displayed if the output
+application is unable to display the image file (see also <a href="http://htmlhelp.com/feature/art3.htm">Use of ALT texts in IMGs</a> ). For
+example:</p>
+</li>
+<li>
+<p><span class="image"><img src="images/logo.png" alt="Company Logo"></span></p>
+</li>
+<li>
+<p>The optional</p>
+</li>
+<li>
+<p><em>title</em></p>
+</li>
+<li>
+<p>attribute provides a title for the image. The
+<a href="ch21.html#X49">block image macro</a>*  renders the title alongside the image.
+  The inline image macro displays the title as a popup “tooltip” in
+  visual browsers (AsciiDoc HTML outputs only).</p>
+</li>
+<li>
+<p>The optional <code>width</code> and <code>height</code> attributes scale the image size
+and can be used in any combination. The units are pixels.  The
+following example scales the previous example to a height of 32
+pixels:</p>
+</li>
+<li>
+<p><span class="image"><img src="images/logo.png" alt="Company Logo" height="32"></span></p>
+</li>
+<li>
+<p>The optional <code>link</code> attribute is used to link the image to an
+external document. The following example links a screenshot
+thumbnail to a full size version:</p>
+</li>
+<li>
+<p><span class="image"><a class="image" href="screen.png"><img src="screen-thumbnail.png" alt="screen thumbnail" height="32"></a></span></p>
+</li>
+<li>
+<p>The optional <code>scaledwidth</code> attribute is only used in DocBook block
+images (specifically for PDF documents). The following example
+scales the images to 75% of the available print width:</p>
+</li>
+<li>
+<p>image::images/logo.png[scaledwidth="75%",alt="Company Logo"]</p>
+</li>
+<li>
+<p>The image
+<code>scale</code>*  attribute sets the DocBook
+<code>imagedata</code>*  element
+<code>scale</code>*  attribute.</p>
+</li>
+<li>
+<p>The optional <code>align</code> attribute aligns block macro images
+horizontally.  Allowed values are <code>center</code> , <code>left</code> and <code>right</code> . For
+example:</p>
+</li>
+<li>
+<p>image::images/tiger.png["Tiger image",align="left"]</p>
+</li>
+<li>
+<p>The optional
+<code>float</code>*  attribute floats the image
+<code>left</code>*  or
+<code>right</code>*  on
+  the page (works with HTML outputs only, has no effect on DocBook
+  outputs).
+<code>float</code>*  and
+<code>align</code>*  attributes are mutually exclusive.
+  Use the
+<code>unfloat::[]</code>*  block macro to stop floating.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_21_1_5_comment_lines"><a href="" class="bare"></a> 21.1.5. Comment Lines</h3>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>See <a href="ch21.html#X25">comment block macro</a> .</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_21_2_block_macros"><a href="" class="bare"></a> 21.2. Block Macros</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>A Block macro reference must be contained in a single line separated
+either side by a blank line or a block delimiter.</p>
+</div>
+<div class="paragraph">
+<p>Block macros behave just like Inline macros, with the following
+differences:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>They occur in a block context.</p>
+</li>
+<li>
+<p>The default syntax is
+<code>&lt;name&gt;::&lt;target&gt;[&lt;attrlist&gt;]</code>*  (two
+  colons, not one).</p>
+</li>
+<li>
+<p>Markup template section names end in
+<code>-blockmacro</code>*  instead of
+<code>-inlinemacro</code>* .</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_21_2_1_block_identifier"><a href="" class="bare"></a> 21.2.1. Block Identifier</h3>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>The Block Identifier macro sets the <code>id</code> attribute and has the same
+syntax as the <a href="ch21.html#X30">anchor inline macro</a> since it performs
+essentially the same function — block templates use the <code>id</code> attribute as a block element ID. For example:</p>
+</div>
+<div class="paragraph">
+<p>This is equivalent to the `[id="X30"]`<a href="ch14.html">AttributeList element</a> ).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_21_2_2_images"><a href="" class="bare"></a> 21.2.2. Images</h3>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>The <em>image</em> block macro is used to display images in a block context.
+The syntax is:</p>
+</div>
+<div class="paragraph">
+<p>The block <code>image</code> macro has the same <a href="ch21.html#X55">macro attributes</a> as it’s<a href="ch21.html#X9">inline image macro</a> counterpart.</p>
+</div>
+<div class="paragraph">
+<p>Block images can be titled by preceding the <em>image</em> macro with a <em>BlockTitle</em> .  DocBook toolchains normally number titled block images
+and optionally list them in an automatically generated <em>List of
+Figures</em> backmatter section.</p>
+</div>
+<div class="paragraph">
+<p>This example:</p>
+</div>
+<div class="paragraph">
+<p>is equivalent to:</p>
+</div>
+<div class="paragraph">
+<p>A title prefix that can be inserted with the <code>caption</code> attribute
+(HTML backends). For example:</p>
+</div>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p><strong>Embedding images in XHTML documents</strong></p>
+</div>
+<div class="paragraph">
+<p>If you define the <code>data-uri</code> attribute then images will be embedded in
+XHTML outputs using the<a href="http://en.wikipedia.org/wiki/Data:_URI_scheme">data URI scheme</a> .  You
+can use the <em>data-uri</em> attribute with the <em>xhtml11</em> and <em>html5</em> backends to produce single-file XHTML documents with embedded images
+and CSS, for example:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+</table>
+</div>
+<div class="sect2">
+<h3 id="_21_2_3_comment_lines"><a href="" class="bare"></a> 21.2.3. Comment Lines</h3>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>Single lines starting with two forward slashes hard up against the
+left margin are treated as comments. Comment lines do not appear in
+the output unless the <em>showcomments</em> attribute is defined.  Comment
+lines have been implemented as both block and inline macros so a
+comment line can appear as a stand-alone block or within block elements
+that support inline macro expansion. Example comment line:</p>
+</div>
+<div class="paragraph">
+<p>If the <em>showcomments</em> attribute is defined comment lines are written
+to the output:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In DocBook the comment lines are enclosed by the</p>
+</li>
+<li>
+<p><em>remark</em></p>
+</li>
+<li>
+<p>element
+(which may or may not be rendered by your toolchain).</p>
+</li>
+<li>
+<p>The</p>
+</li>
+<li>
+<p><em>showcomments</em></p>
+</li>
+<li>
+<p>attribute does not expose
+<a href="ch16.html#X26">Comment Blocks</a>* .
+  Comment Blocks are never passed to the output.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_21_3_system_macros"><a href="" class="bare"></a> 21.3. System Macros</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>System macros are block macros that perform a predefined task and are
+hardwired into the <code>asciidoc(1)</code> program.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can escape system macros with a leading backslash character
+(as you can with other macros).</p>
+</li>
+<li>
+<p>The syntax and tasks performed by system macros is built into
+<code>asciidoc(1)</code>*  so they don’t appear in configuration files.  You can
+  however customize the syntax by adding entries to a configuration
+  file
+<code>[macros]</code>*  section.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_21_3_1_include_macros"><a href="" class="bare"></a> 21.3.1. Include Macros</h3>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>The <code>include</code> and <code>include1</code> system macros to include the contents of
+a named file into the source document.</p>
+</div>
+<div class="paragraph">
+<p>The <code>include</code> macro includes a file as if it were part of the parent
+document — tabs are expanded and system macros processed. The
+contents of <code>include1</code> files are not subject to tab expansion or
+system macro processing nor are attribute or lower priority
+substitutions performed. The <code>include1</code> macro’s intended use is to
+include verbatim embedded CSS or scripts into configuration file
+headers.  Example:</p>
+</div>
+<div class="paragraph">
+<p><strong>Include macro behavior</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the included file name is specified with a relative path then the
+path is relative to the location of the referring document.</p>
+</li>
+<li>
+<p>Include macros can appear inside configuration files.</p>
+</li>
+<li>
+<p>Files included from within</p>
+</li>
+<li>
+<p><em>DelimitedBlocks</em></p>
+</li>
+<li>
+<p>are read to completion
+to avoid false end-of-block underline termination.</p>
+</li>
+<li>
+<p>Attribute references are expanded inside the include</p>
+</li>
+<li>
+<p><em>target</em></p>
+</li>
+<li>
+<p>; if an
+attribute is undefined then the included file is silently skipped.</p>
+</li>
+<li>
+<p>The</p>
+</li>
+<li>
+<p><em>tabsize</em></p>
+</li>
+<li>
+<p>macro attribute sets the number of space characters to
+  be used for tab expansion in the included file (not applicable to
+<code>include1</code>*  macro).</p>
+</li>
+<li>
+<p>The</p>
+</li>
+<li>
+<p><em>depth</em></p>
+</li>
+<li>
+<p>macro attribute sets the maximum permitted number of
+  subsequent nested includes (not applicable to
+<code>include1</code>*  macro which
+  does not process nested includes). Setting</p>
+</li>
+<li>
+<p><em>depth</em></p>
+</li>
+<li>
+<p>to</p>
+</li>
+<li>
+<p><em>1</em></p>
+</li>
+<li>
+<p>disables
+nesting inside the included file. By default, nesting is limited to
+a depth of ten.</p>
+</li>
+<li>
+<p>If the he</p>
+</li>
+<li>
+<p><em>warnings</em></p>
+</li>
+<li>
+<p>attribute is set to</p>
+</li>
+<li>
+<p><em>False</em></p>
+</li>
+<li>
+<p>(or any other
+Python literal that evaluates to boolean false) then no warning
+message is printed if the included file does not exist. By default</p>
+</li>
+<li>
+<p><em>warnings</em></p>
+</li>
+<li>
+<p>are enabled.</p>
+</li>
+<li>
+<p>Internally the
+<code>include1</code>*  macro is translated to the
+<code>include1</code>* system attribute which means it must be evaluated in a region where
+  attribute substitution is enabled. To inhibit nested substitution in
+  included files it is preferable to use the
+<code>include</code>*  macro and set
+  the attribute
+<code>depth=1</code>* .</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_21_3_2_conditional_inclusion_macros"><a href="" class="bare"></a> 21.3.2. Conditional Inclusion Macros</h3>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>Lines of text in the source document can be selectively included or
+excluded from processing based on the existence (or not) of a document
+attribute.</p>
+</div>
+<div class="paragraph">
+<p>Document text between the <code>ifdef</code> and <code>endif</code> macros is included if a
+document attribute is defined:</p>
+</div>
+<div class="paragraph">
+<p>Document text between the <code>ifndef</code> and <code>endif</code> macros is not included
+if a document attribute is defined:</p>
+</div>
+<div class="paragraph">
+<p><code>&lt;attribute&gt;</code> is an attribute name which is optional in the trailing`endif` macro.</p>
+</div>
+<div class="paragraph">
+<p>If you only want to process a single line of text then the text can be
+put inside the square brackets and the <code>endif</code> macro omitted, for
+example:</p>
+</div>
+<div class="paragraph">
+<p>Is equivalent to:</p>
+</div>
+<div class="paragraph">
+<p><em>ifdef</em> and <em>ifndef</em> macros also accept multiple attribute names:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Multiple</p>
+</li>
+<li>
+<p><em>,</em></p>
+</li>
+<li>
+<p>separated attribute names evaluate to defined if one
+or more of the attributes is defined, otherwise it’s value is
+undefined.</p>
+</li>
+<li>
+<p>Multiple</p>
+</li>
+<li>
+<p><em>+</em></p>
+</li>
+<li>
+<p>separated attribute names evaluate to defined if all
+of the attributes is defined, otherwise it’s value is undefined.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Document text between the <code>ifeval</code> and <code>endif</code> macros is included if
+the Python expression inside the square brackets is true. Example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Document attribute references are expanded before the expression is
+evaluated.</p>
+</li>
+<li>
+<p>If an attribute reference is undefined then the expression is
+considered false.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Take a look at the <code>*.conf</code> configuration files in the AsciiDoc
+distribution for examples of conditional inclusion macro usage.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_21_3_3_executable_system_macros"><a href="" class="bare"></a> 21.3.3. Executable system macros</h3>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>The <em>eval</em> , <em>sys</em> and <em>sys2</em> block macros exhibit the same behavior as
+their same named <a href="ch30.html#X24">system attribute references</a> . The difference
+is that system macros occur in a block macro context whereas system
+attributes are confined to inline contexts where attribute
+substitution is enabled.</p>
+</div>
+<div class="paragraph">
+<p>The following example displays a long directory listing inside a
+literal block:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+</table>
+</div>
+<div class="sect2">
+<h3 id="_21_3_4_template_system_macro"><a href="" class="bare"></a> 21.3.4. Template System Macro</h3>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>The <code>template</code> block macro allows the inclusion of one configuration
+file template section within another.  The following example includes
+the <code>[admonitionblock]</code> section in the <code>[admonitionparagraph]</code> section:</p>
+</div>
+<div class="paragraph">
+<p><strong>Template macro behavior</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The
+<code>template::[]</code>*  macro is useful for factoring configuration file
+  markup.
+<code>template::[]</code>*  macros cannot be nested.
+<code>template::[]</code>*  macro expansion is applied after all configuration
+  files have been read.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_21_4_passthrough_macros"><a href="" class="bare"></a> 21.4. Passthrough macros</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>Passthrough macros are analogous to <a href="ch16.html#X76">passthrough blocks</a> and are
+used to pass text directly to the output. The substitution performed
+on the text is determined by the macro definition but can be overridden
+by the <code>&lt;subslist&gt;</code> .  The usual syntax is`&lt;name&gt;:&lt;subslist&gt;[&lt;passtext&gt;]` (for inline macros) and`&lt;name&gt;::&lt;subslist&gt;[&lt;passtext&gt;]` (for block macros). Passthroughs, by
+definition, take precedence over all other text substitutions.</p>
+</div>
+<div class="paragraph">
+<p>Inline and block. Passes text unmodified (apart from explicitly
+  specified substitutions). Examples:</p>
+</div>
+<div class="paragraph">
+<p><a href="ch25.html">mathematical formulas</a></p>
+</div>
+<div class="paragraph">
+<p>Inline and block. The triple-plus passthrough is functionally
+  identical to the <em>pass</em> macro but you don’t have to escape <code>]</code> characters and you can prefix with quoted attributes in the inline
+  version. Example:</p>
+</div>
+<div class="paragraph">
+<p>Inline and block. The double-dollar passthrough is functionally
+  identical to the triple-plus passthrough with one exception: special
+  characters are escaped. Example:</p>
+</div>
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p><a href="ch10.html#X81">plus character instead of a backtick</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_21_5_macro_definitions"><a href="" class="bare"></a> 21.5. Macro Definitions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="" class="bare"></a></p>
+</div>
+<div class="paragraph">
+<p>Each entry in the configuration <code>[macros]</code> section is a macro
+definition which can take one of the following forms:</p>
+</div>
+<div class="paragraph">
+<p><code>&lt;pattern&gt;=&lt;name&gt;[&lt;subslist]</code></p>
+</div>
+<div class="paragraph">
+<p><code>&lt;pattern&gt;=#&lt;name&gt;[&lt;subslist]</code></p>
+</div>
+<div class="paragraph">
+<p><code>&lt;pattern&gt;=+&lt;name&gt;[&lt;subslist]</code></p>
+</div>
+<div class="paragraph">
+<p><code>&lt;pattern&gt;</code></p>
+</div>
+<div class="paragraph">
+<p><code>&lt;pattern&gt;</code></p>
+</div>
+<div class="paragraph">
+<p><code>&lt;pattern&gt;</code> is a Python regular expression and <code>&lt;name&gt;</code> is the name of
+a markup template. If <code>&lt;name&gt;</code> is omitted then it is the value of the
+regular expression match group named <em>name</em> .  The optional`[&lt;subslist]` is a comma-separated list of substitution names enclosed
+in <code>[]</code> brackets, it sets the default substitutions for passthrough
+text, if omitted then no passthrough substitutions are performed.</p>
+</div>
+<div class="paragraph">
+<p><strong>Pattern named groups.</strong> The following named groups can be used in macro <code>&lt;pattern&gt;</code> regular
+expressions and are available as markup template attributes:</p>
+</div>
+<div class="paragraph">
+<p><strong>Here’s what happens during macro substitution</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Each contextually relevant macro</p>
+</li>
+<li>
+<p><em>pattern</em></p>
+</li>
+<li>
+<p>from the
+<code>[macros]</code>* section is matched against the input source line.</p>
+</li>
+<li>
+<p>If a match is found the text to be substituted is loaded from a
+  configuration markup template section named like
+<code>&lt;name&gt;-inlinemacro</code>*  or
+<code>&lt;name&gt;-blockmacro</code>*  (depending on the macro
+  type).</p>
+</li>
+<li>
+<p>Global and macro attribute list attributes are substituted in the
+macro’s markup template.</p>
+</li>
+<li>
+<p>The substituted template replaces the macro reference in the output
+document.</p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+</table>
+</div>
+</div>
+            </body>
+            </html>
