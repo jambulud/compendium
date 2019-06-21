@@ -5,20 +5,37 @@ toc::[]
 
 == TESTING LINKS
 
-refer to <<page2.asciidoc#, page 2>> for more info
+refer to <<page1#bookmark-a, page1#bookmark-a>> for more info
 
-link:./page2.asciidoc[test link with asciidoc]
+refer to <<page1.asciidoc#bookmark-a, page1.asciidoc#bookmark-a>> for more info
 
-link:page2.asciidoc[test link ]
+link:./page1[link:./page1]
 
-link:page2.asciidoc#appcomponent[test sublink in minus with asciidoc]
+link:./page1.asciidoc[link:./page1.asciidoc]
 
-link:page2#AppComponent.asciidoc[test sublink in mayus before asciidoc]
+link:page1#Pipeline[link:page1#Pipeline]
 
-link:page2#appcomponent.asciidoc[test sublink in minus before asciidoc]
+link:page1.asciidoc#Pipeline[link:page1.asciidoc#Pipeline]
+
+Xref page 1:
+
+xref:bookmark-a[xref:bookmark-a]
+
+Anchor to page 1:
+
+Click on <<adjustments-id, adjustments-id>> to go to Adjustments
+
+Links to page 2:
+
+link:./page2.asciidoc[link:./page2.asciidoc]
+
+link:page2#basic-project-structure[link:page2#basic-project-structure]
+
+link:page2.asciidoc#basic-project-structure[link:page2.asciidoc#basic-project-structure]
 
 The Angular client-side of My Thai Star is going to have some specific needs for the CI-CD Pipeline to perform mandatory operations.
 
+[[bookmark-a]]
 == Pipeline
 
 The Pipeline for the Angular client-side is going to be called *MyThaiStar_FRONTEND_BUILD*. It is located in the PL instance, under the link:https://devon.s2-eu.capgemini.com/jenkins/job/MTS/[MTS folder] (as previously explained). It is going to follow a process flow like this one:
@@ -93,6 +110,7 @@ post {
 }
 ----
 
+[[adjustments-id]]
 == Adjustments
 
 The Angular project Pipeline needed some "extra" features to complete all planned processes. Those features resulted in some additions to the project.
@@ -137,7 +155,7 @@ environment {
 }
 ----
 
-==== Description
+=== Description
 - *buildScript*: script for build the applicaction. It must be defined at package.json.
 +
 Example (package.json):
@@ -211,16 +229,22 @@ This will be used as follows:
 sh """yarn ${testScript}"""
 ----
 - *angularDir*: Relative route to angular application. In My Thai Star this is the angular folder. The actual directory (.) is also allowed.
-+
+
+
+
 image::images/ci/angular/angular_directory.png[, link="angular_directory.PNG"]
+
 - *srcDir*: Directory where you store the soruce code. For angular applications the default value is `src`
-+
+
 image::images/ci/angular/src_directory.png[, link="src_directory.PNG"]
+
 - *chrome*: Since you need a browser to run your tests, we must provide one. This variable contains the name of the custom tool for google chrome.
-+
+
 image::images/ci/angular/chrome_installation.png[, link="chrome_installation.PNG"]
+
 - *sonarTool*: Name of the sonarQube scanner installation.
-+
+
+
 image::images/ci/angular/sonar-scanner.png[, link="sonar-scanner.PNG"]
 - *sonarEnv*: Name of the sonarQube environment. SonarQube is the default value for PL.
 +

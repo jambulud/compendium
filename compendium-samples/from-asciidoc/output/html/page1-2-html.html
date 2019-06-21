@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+            <html>
+            <head>
+            <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td{
+                border: 1px solid #dddddd;
+                text-align: left;
+            }
+            th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                background-color: #dddddd;
+            }
+            img {
+                width:20%;
+            }
+
+            </style>
+            </head>
+            <body>
+            <div id="preamble">
+<div class="sectionbody">
+<div id="toc" class="toc">
+<div id="toctitle" class="title">Table of Contents</div>
+<ul class="sectlevel0">
+<li><a href="#_angular_ci">Angular CI</a>
+<ul class="sectlevel1">
+<li><a href="#_testing_links">TESTING LINKS</a></li>
+<li><a href="#_pipeline">Pipeline</a></li>
+<li><a href="#_adjustments">Adjustments</a>
+<ul class="sectlevel2">
+<li><a href="#_pipeline_environment">Pipeline Environment</a></li>
+<li><a href="#_description">Description</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_angular_design">Angular design</a>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_basic_project_structure">Basic project structure</a></li>
+<li><a href="#_main_views_and_components">Main Views and components</a>
+<ul class="sectlevel2">
+<li><a href="#_public_area">Public area</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<h1 id="_angular_ci" class="sect0">Angular CI</h1>
+<div class="sect1">
+<h2 id="_testing_links">TESTING LINKS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>refer to <a href="page1.html#bookmark-a">page1#bookmark-a</a> for more info</p>
+</div>
+<div class="paragraph">
+<p>refer to <a href="page1.html#bookmark-a">page1.asciidoc#bookmark-a</a> for more info</p>
+</div>
+<div class="paragraph">
+<p><a href="./page1">link:./page1</a></p>
+</div>
+<div class="paragraph">
+<p><a href="./page1.asciidoc">link:./page1.asciidoc</a></p>
+</div>
+<div class="paragraph">
+<p><a href="page1#Pipeline">link:page1#Pipeline</a></p>
+</div>
+<div class="paragraph">
+<p><a href="page1.asciidoc#Pipeline">link:page1.asciidoc#Pipeline</a></p>
+</div>
+<div class="paragraph">
+<p>Xref page 1:</p>
+</div>
+<div class="paragraph">
+<p><a href="#bookmark-a">xref:bookmark-a</a></p>
+</div>
+<div class="paragraph">
+<p>Anchor to page 1:</p>
+</div>
+<div class="paragraph">
+<p>Click on <a href="#adjustments-id">adjustments-id</a> to go to Adjustments</p>
+</div>
+<div class="paragraph">
+<p>Links to page 2:</p>
+</div>
+<div class="paragraph">
+<p><a href="./page2.asciidoc">link:./page2.asciidoc</a></p>
+</div>
+<div class="paragraph">
+<p><a href="page2#basic-project-structure">link:page2#basic-project-structure</a></p>
+</div>
+<div class="paragraph">
+<p><a href="page2.asciidoc#basic-project-structure">link:page2.asciidoc#basic-project-structure</a></p>
+</div>
+<div class="paragraph">
+<p>The Angular client-side of My Thai Star is going to have some specific needs for the CI-CD Pipeline to perform mandatory operations.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pipeline">Pipeline</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Pipeline for the Angular client-side is going to be called <strong>MyThaiStar_FRONTEND_BUILD</strong> . It is located in the PL instance, under the <a href="https://devon.s2-eu.capgemini.com/jenkins/job/MTS/">MTS folder</a> (as previously explained). It is going to follow a process flow like this one:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><a class="image" href="angular_pipeline_flow.PNG"><img src="images/ci/angular/angular_pipeline_flow.PNG" alt="angular pipeline flow"></a></span></p>
+</div>
+<div class="paragraph">
+<p>Each of those steps are called <em>stages</em> in the Jenkins context.Let&#8217;s see what those steps mean in the context of the Angular application:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Declarative: Checkout SCM</strong></p>
+</li>
+<li>
+<p><strong>Declarative: Tool Install</strong></p>
+</li>
+<li>
+<p><strong>Loading Custom Tools</strong></p>
+</li>
+<li>
+<p><strong>Fresh Dependency Installation</strong></p>
+</li>
+<li>
+<p><strong>Code Linting</strong></p>
+</li>
+<li>
+<p><strong>Execute Angular tests</strong></p>
+</li>
+<li>
+<p><strong>SonarQube code analysis</strong></p>
+</li>
+<li>
+<p><strong>Build Application</strong></p>
+</li>
+<li>
+<p><strong>Deliver application into Nexus</strong></p>
+</li>
+<li>
+<p>Declarative: Post Actions</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_adjustments">Adjustments</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Angular project Pipeline needed some "extra" features to complete all planned processes. Those features resulted in some additions to the project.</p>
+</div>
+<div class="sect2">
+<h3 id="_pipeline_environment">Pipeline Environment</h3>
+<div class="paragraph">
+<p>In order to easily reuse the pipeline in other angular projects, all variables have been defined in the block environment. All variables have the default values that Production Line uses, so if you&#8217;re going to work in production line you won&#8217;t have to change anything. Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">environment {
+    // Script for build the application. Defined at package.json
+    buildScript = 'build --configuration=docker'
+    // Script for lint the application. Defined at package.json
+    lintScript = 'lint'
+    // Script for test the application. Defined at package.json
+    testScript = 'test:ci'
+    // Angular directory
+    angularDir = 'angular'
+    // SRC folder. It will be angularDir/srcDir
+    srcDir = 'src'
+    // Name of the custom tool for chrome stable
+    chrome = 'Chrome-stable'
+
+    // sonarQube
+    // Name of the sonarQube tool
+    sonarTool = 'SonarQube'
+    // Name of the sonarQube environment
+    sonarEnv = "SonarQube"
+
+    // Nexus
+    // Artifact groupId
+    groupId = 'com.devonfw.mythaistar'
+    // Nexus repository ID
+    repositoryId = 'pl-nexus'
+    // Nexus internal URL
+    repositoryUrl = 'http://nexus3-core:8081/nexus3/repository/maven-snapshots'
+    // Maven global settings configuration ID
+    globalSettingsId = 'MavenSettings'
+    // Maven tool id
+    mavenInstallation = 'Maven3'
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_description">Description</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>buildScript</strong> : script for build the applicaction. It must be defined at package.json.</p>
+</li>
+<li>
+<p><strong>lintScript</strong> : Script for lint the application. Defined at package.json</p>
+</li>
+<li>
+<p><strong>testScript</strong> : Script for test the application. Defined at package.json</p>
+</li>
+<li>
+<p><strong>angularDir</strong> : Relative route to angular application. In My Thai Star this is the angular folder. The actual directory (.) is also allowed.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><a class="image" href="angular_directory.PNG"><img src="images/ci/angular/angular_directory.png" alt="angular directory"></a></span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>srcDir</strong> : Directory where you store the soruce code. For angular applications the default value is <code>src</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><a class="image" href="src_directory.PNG"><img src="images/ci/angular/src_directory.png" alt="src directory"></a></span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>chrome</strong> : Since you need a browser to run your tests, we must provide one. This variable contains the name of the custom tool for google chrome.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><a class="image" href="chrome_installation.PNG"><img src="images/ci/angular/chrome_installation.png" alt="chrome installation"></a></span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>sonarTool</strong> : Name of the sonarQube scanner installation.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><a class="image" href="sonar-scanner.PNG"><img src="images/ci/angular/sonar-scanner.png" alt="sonar scanner"></a></span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>sonarEnv</strong> : Name of the sonarQube environment. SonarQube is the default value for PL.</p>
+</li>
+<li>
+<p><strong>groupId</strong> : Group id of the application. It will be used to storage the application in nexus3</p>
+</li>
+<li>
+<p><strong>repositoryId</strong> : Id of the nexus3 repository. It must be defined at maven global config file.</p>
+</li>
+<li>
+<p><strong>repositoryUrl</strong> : The url of the repository.</p>
+</li>
+<li>
+<p><strong>globalSettingsId</strong> : The id of the global settings file.</p>
+</li>
+<li>
+<p>mavenInstallation: The name of the maven tool.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<h1 id="_angular_design" class="sect0">Angular design</h1>
+<div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>MyThaiStar client side has been built using latest frameworks, component libraries and designs:</p>
+</div>
+<div class="paragraph">
+<p><strong>Angular</strong> <em>4</em> as main front-end Framework. <a href="https://angular.io/">https://angular.io/</a></p>
+</div>
+<div class="paragraph">
+<p><strong>Angular/CLI</strong> <em>1.0.5</em> as Angular tool helper. <a href="https://github.com/angular/angular-cli">https://github.com/angular/angular-cli</a></p>
+</div>
+<div class="paragraph">
+<p><strong>Covalent Teradata</strong> <em>1.0.0-beta4</em> as Angular native component library based on Material Design. <a href="https://teradata.github.io/covalent/<mark>/"><a href="https://teradata.github.io/covalent/" class="bare">https://teradata.github.io/covalent/</a></mark>/</a></p>
+</div>
+<div class="paragraph">
+<p><strong>Angular/Material2</strong> <em>1.0.0-beta5</em> used by Covalent Teradata. <a href="https://github.com/angular/material2">https://github.com/angular/material2</a></p>
+</div>
+<div class="paragraph">
+<p><em>Note: this dependencies are evolving at this moment and if it is possible, we are updating it on the project.</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_basic_project_structure">Basic project structure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The project is using the basic project seed that Angular/CLI provides with “ng new &lt;project name&gt;”. Then the app folder has been organized as Angular recommends and goes as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>app</p>
+<div class="ulist">
+<ul>
+<li>
+<p>components</p>
+<div class="ulist">
+<ul>
+<li>
+<p>sub-components</p>
+</li>
+<li>
+<p>shared</p>
+</li>
+<li>
+<p>component files</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>main app component</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>assets folder</p>
+</li>
+<li>
+<p>environments folder</p>
+</li>
+<li>
+<p>rest of angular files</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This structure can be shown in the following example image:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><a class="image" href="images/angular/folder_organization.png"><img src="images/angular/folder_organization.png" alt="folder organization"></a></span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_main_views_and_components">Main Views and components</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>List of components that serve as a main view to navigate or components developed to make atomically a group of functionalities which given their nature, can be highly reusable through the app.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><a class="image" href="images/angular/routes.png"><img src="images/angular/routes.png" alt="routes"></a></span></p>
+</div>
+<div class="paragraph">
+<p><em>Note: no-name-route corresponds to whatever URL the user introduced and does not exist, it redirects to HomeComponent.</em></p>
+</div>
+<div class="sect2">
+<h3 id="_public_area">Public area</h3>
+<div class="sect3">
+<h4 id="_appcomponent">AppComponent</h4>
+<div class="paragraph">
+<p>Contains the components that are on top of all views, including:</p>
+</div>
+<div class="sect4">
+<h5 id="_order_sidenav">Order sidenav</h5>
+<div class="paragraph">
+<p>Sidenav where selected orders are displayed with their total price and some comments.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+            </body>
+            </html>

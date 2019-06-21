@@ -1,0 +1,17 @@
+:toc: macro
+toc::[]
+
+= Angular design
+
+== Introduction
+MyThaiStar client side has been built using latest frameworks, component libraries and designs:
+
+
+== Basic project structure
+
+[width="15%"]
+|=======
+|1 |2 |A
+|3 |4 |B
+|5 |6 |C
+|=======
