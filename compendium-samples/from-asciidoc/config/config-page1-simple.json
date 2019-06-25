@@ -1,0 +1,16 @@
+{
+    "sources": [
+      {
+        "reference": "handbook",
+        "source_type": "asciidoc",
+        "source": "compendium-samples/from-asciidoc/source"
+      }
+    ],
+    "documents": [
+      {
+        "reference": "handbook",
+        "document": "page1-simple"
+      }
+    ]
+  }
+  

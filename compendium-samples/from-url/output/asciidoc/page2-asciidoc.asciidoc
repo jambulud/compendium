@@ -12,6 +12,14 @@ Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique
 
 image:images/documents.png[docs]
 
+==  Section with table
+
+link:#subtitle[Go to subtitle]
+
+link:index.html[Go back to index]
+
+link:http://localhost:8081/index.html[Go to localhost/index]
+
 |==================
 |==================
 

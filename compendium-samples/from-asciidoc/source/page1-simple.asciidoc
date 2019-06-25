@@ -1,0 +1,76 @@
+:toc: macro
+toc::[]
+
+= Angular CI
+
+== TESTING LINKS
+
+refer to <<page1#bookmark-a, page1#bookmark-a>> for more info
+
+refer to <<page1.asciidoc#bookmark-a, page1.asciidoc#bookmark-a>> for more info
+
+link:./page1[link:./page1]
+
+link:./page1.asciidoc[link:./page1.asciidoc]
+
+link:page1#Pipeline[link:page1#Pipeline]
+
+Xref page 1:
+
+xref:bookmark-a[xref:bookmark-a]
+
+Anchor to page 1:
+
+Click on <<adjustments-id, adjustments-id>> to go to Adjustments
+
+Links to page 2:
+
+link:./page2.asciidoc[link:./page2.asciidoc]
+
+link:page2#basic-project-structure[link:page2#basic-project-structure]
+
+The Angular client-side of My Thai Star is going to have some specific needs for the CI-CD Pipeline to perform mandatory operations.
+
+[width="15%"]
+|=======
+|1 |2 |A
+|3 |4 |B
+|5 |6 |C
+|=======
+
+[[bookmark-a]]
+== Pipeline
+
+The Pipeline for the Angular client-side is going to be called *MyThaiStar_FRONTEND_BUILD*. It is located in the PL instance, under the link:https://devon.s2-eu.capgemini.com/jenkins/job/MTS/[MTS folder] (as previously explained). It is going to follow a process flow like this one:
+
+image::images/ci/angular/angular_pipeline_flow.PNG[, link="angular_pipeline_flow.PNG"]
+
+Each of those steps are called _stages_ in the Jenkins context.Let's see what those steps mean in the context of the Angular application:
+
+. *Deliver application into Nexus*
++
+Once the scripts produce the Angular artifact (`/dist` folder), it's time to package it and store into nexus.
+. Declarative: Post Actions
++
+At the end, this step is always executed, even if a previous stage fail. We use this step to clean up the workspace for future executions
++
+[source, groovy]
+----
+post {
+    always {
+        cleanWs()
+    }
+}
+----
+
+[[adjustments-id]]
+== Adjustments
+
+The Angular project Pipeline needed some "extra" features to complete all planned processes. Those features resulted in some additions to the project.
+
+=== Pipeline Environment
+
+In order to easily reuse the pipeline in other angular projects, all variables have been defined in the block environment. All variables have the default values that Production Line uses, so if you're going to work in production line you won't have to change anything. Example:
+
+image::images/ci/angular/angular_directory.png[, link="angular_directory.PNG"]
+

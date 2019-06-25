@@ -15,8 +15,6 @@ link:./page1.asciidoc[link:./page1.asciidoc]
 
 link:page1#Pipeline[link:page1#Pipeline]
 
-link:page1.asciidoc#Pipeline[link:page1.asciidoc#Pipeline]
-
 Xref page 1:
 
 xref:bookmark-a[xref:bookmark-a]
@@ -31,9 +29,14 @@ link:./page2.asciidoc[link:./page2.asciidoc]
 
 link:page2#basic-project-structure[link:page2#basic-project-structure]
 
-link:page2.asciidoc#basic-project-structure[link:page2.asciidoc#basic-project-structure]
-
 The Angular client-side of My Thai Star is going to have some specific needs for the CI-CD Pipeline to perform mandatory operations.
+
+[width="15%"]
+|=======
+|1 |2 |A
+|3 |4 |B
+|5 |6 |C
+|=======
 
 [[bookmark-a]]
 == Pipeline
