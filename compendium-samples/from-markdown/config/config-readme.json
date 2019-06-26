@@ -1,0 +1,16 @@
+{
+    "sources": [
+      {
+        "reference": "handbook",
+        "source_type": "markdown",
+        "source": "compendium-samples/from-markdown/source/"
+      }
+    ],
+    "documents": [
+      {
+        "reference": "handbook",
+        "document": "readme"
+      }
+    ]
+  }
+  
